@@ -18,28 +18,20 @@ namespace Exercises
             }
             else
             {
-                if (input.Contains("_"))
+                if (input.Contains("_")||input.Any(char.IsNumber))
                 {
                     return true;
                 }
-
-                if (input.Any(char.IsNumber))
-                {
-                    return true;
-                }
-
-                string trim_input = input.Replace(" ", "");
-                if (!trim_input.ToLower().Contains("x") || !trim_input.ToLower().Contains("h"))
+                if (!input.ToLower().Contains("x") || !input.ToLower().Contains("h"))
                 {
                     return false;
                 }
-                if (trim_input.All(char.IsLower)||(trim_input.Any(char.IsLower)&&trim_input.Any(char.IsUpper)))
+                if (input.All(char.IsLower)||(input.Any(char.IsLower)&&input.Any(char.IsUpper)))
                 {
                     return true;
                 }
                 
             }
-
             return true;
         }
     }
