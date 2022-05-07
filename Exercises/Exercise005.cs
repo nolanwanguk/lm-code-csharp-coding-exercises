@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
+
 namespace Exercises
 {
     public class Exercise005
@@ -8,30 +10,103 @@ namespace Exercises
         {
             // Replace the exception statement below with your code!
             // throw new NotImplementedException();
+            int upper, lower, space, underscore, num, X, H;
+            upper = lower = space = underscore = num = X = H = 0;
+            
             if (string.IsNullOrEmpty(input))
             {
                 return false;
             }
-            else if (input.ToLower() == "abcdefghijklmnopqrstuvwxyz")
+
+            if (input.ToLower() == "abcdefghijklmnopqrstuvwxyz")
             {
                 return true;
             }
-            else
+            
+            foreach (var item in input.ToCharArray())
             {
-                if (input.Contains("_")||input.Any(char.IsNumber))
+                // can be work over C# 9.0 or greater
+                // switch (item)
+                // {
+                //     case >="a"&&<="z":
+                //         lower += 1;
+                //         break;
+                //     case >="A"&&<="Z":
+                //         upper += 1;
+                //         break;
+                //     case >=0&&<=9:
+                //         num += 1;
+                //         break;
+                //     case " ":
+                //         space += 1;
+                //         break;
+                //     case "_":
+                //         underscore += 1;
+                //         break;
+                // }
+                if (char.IsLower(item))
                 {
-                    return true;
+                    lower += 1;
                 }
-                if (!input.ToLower().Contains("x") || !input.ToLower().Contains("h"))
+                if (char.IsUpper(item))
                 {
-                    return false;
+                    upper += 1;
                 }
-                if (input.All(char.IsLower)||(input.Any(char.IsLower)&&input.Any(char.IsUpper)))
+                if (char.IsNumber(item))
                 {
-                    return true;
+                    num += 1;
                 }
-                
+                if (char.IsWhiteSpace(item))
+                {
+                    space += 1;
+                }
+                if (item == Convert.ToChar(("_")))
+                {
+                    underscore += 1;
+                }
+
+                if (char.ToLower(item) == Convert.ToChar("x"))
+                {
+                    X += 1;
+                }
+
+                if (char.ToLower(item) == Convert.ToChar("h"))
+                {
+                    H += 1;
+                }
             }
+            // for missing x case
+            if (lower >= 0 && upper >= 0 && num == 0 && space > 0 && underscore == 0 && X == 0)
+            {
+                return false;
+            }
+            // for missing h case
+            if (lower >= 0 && upper >= 0 && num == 0 && space > 0 && underscore == 0 && H == 0)
+            {
+                return false;
+            }
+            // for underscore case
+            if (lower >= 0 && upper >= 0 && num == 0 && space > 0 && underscore > 1)
+            {
+                return true;
+            }
+            // for number case
+            if (lower >= 0 && upper >= 0 && num > 0 && space > 0 && underscore == 0)
+            {
+                return true;
+            }
+            // all lower case
+            if (lower > 0 && upper == 0 && num == 0 && space > 0 && underscore == 0)
+            {
+                return true;
+            }
+            // mixed case
+            if (lower > 0 && upper > 0 && num == 0 && space > 0 && underscore == 0)
+            {
+                return true;
+            }
+            
+
             return true;
         }
     }
